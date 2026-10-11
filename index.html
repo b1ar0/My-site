@@ -3,44 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Билинский Артур | QA</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background: #f4f7f6; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .card { background: #fff; max-width: 450px; width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; text-align: center; }
-        .header-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 120px; }
-        .avatar { width: 110px; height: 110px; border-radius: 50%; border: 5px solid #fff; margin-top: -55px; object-fit: cover; background: #ccc; }
-        .content { padding: 30px 20px; }
-        h1 { font-size: 24px; color: #2d3748; margin-bottom: 5px; }
-        .subtitle { font-size: 14px; color: #a0aec0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
-        .bio { font-size: 16px; color: #4a5568; line-height: 1.6; margin-bottom: 25px; }
-        .links { display: flex; flex-direction: column; gap: 12px; }
-        .btn { display: block; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px; transition: all 0.3s ease; }
-        .btn-primary { background: #667eea; color: #fff; }
-        .btn-primary:hover { background: #5a6fd6; }
-        .btn-secondary { background: #edf2f7; color: #4a5568; }
-        .btn-secondary:hover { background: #e2e8f0; }
-    </style>
+    <title>Билинский Артур | QA Engineer</title>
+    <meta name="description" content="Билинский Артур, QA-инженер. Тестирую фронтенд, бэкенд и API. Telegram, почта и проекты на GitHub.">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#f3f4f2" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f1110" media="(prefers-color-scheme: dark)">
+
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="Билинский Артур | QA Engineer">
+    <meta property="og:description" content="Тестирую фронтенд, бэкенд и API.">
+    <meta property="og:image" content="avatar-1080.jpg">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preload" as="image" href="avatar-1080.webp" type="image/webp">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Onest:wght@400;500;600;700&display=swap&subset=cyrillic">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <a class="skip" href="#main">К содержимому</a>
 
-    <div class="card">
-        <div class="header-bg"></div>
-        <img class="avatar" src="avatar.jpg" alt="Фото">
-        
-        <div class="content">
-            <h1>Билинский Артур</h1>
-            <p class="subtitle">Quality Assurance Engineer</p>
-            <p class="bio">Занимаюсь тестированием програмного обеспечения фронт/бэк/API.</p>
-            
-            <div class="links">
-                <a href="https://t.me/b1arr0" class="btn btn-primary" target="_blank">Написать в Telegram</a>
-                <a href="https://e.mail.ru/compose/?to=biarro@mail.ru"
-                class="btn btn-secondary" target="_blank">Электронная почта</a>
-                <a href="https://github.com/b1ar0?tab=repositories" class="btn btn-secondary" target="_blank">Портфолио проектов</a>
+    <header class="top wrap">
+        <a class="mark" href="#main" aria-label="Билинский Артур, наверх">БА</a>
+        <nav class="top-nav" aria-label="Основная навигация">
+            <a href="#scope">Направления</a>
+            <a href="#contacts">Контакты</a>
+        </nav>
+    </header>
+
+    <main id="main">
+        <section class="hero wrap" aria-labelledby="hero-title">
+            <div class="hero-text">
+                <p class="eyebrow enter d0">Quality Assurance Engineer</p>
+                <h1 id="hero-title" class="enter d1">Билинский<br>Артур</h1>
+                <p class="lead enter d2">Занимаюсь тестированием программного обеспечения: фронтенд, бэкенд и API.</p>
+                <div class="actions enter d3">
+                    <a class="btn" href="https://t.me/b1arr0" target="_blank" rel="noopener">
+                        <i class="ph ph-telegram-logo" aria-hidden="true"></i>
+                        Написать в Telegram
+                    </a>
+                    <a class="text-link" href="#contacts">Все контакты</a>
+                </div>
             </div>
-        </div>
-    </div>
 
+            <figure class="hero-photo enter d2">
+                <picture>
+                    <source srcset="avatar-1080.webp" type="image/webp">
+                    <img src="avatar-1080.jpg" width="1080" height="1440"
+                         alt="Артур на набережной Севастополя, вид со спины на Памятник затопленным кораблям">
+                </picture>
+            </figure>
+        </section>
+
+        <section id="scope" class="scope wrap" aria-labelledby="scope-title">
+            <h2 id="scope-title" class="reveal">Что тестирую</h2>
+            <div class="scope-grid">
+                <article class="scope-cell cell-front reveal">
+                    <span class="tag">UI</span>
+                    <h3>Фронтенд</h3>
+                    <p>Интерфейсы, формы и пользовательские сценарии в разных браузерах.</p>
+                </article>
+                <article class="scope-cell cell-back reveal">
+                    <span class="tag">Server</span>
+                    <h3>Бэкенд</h3>
+                    <p>Серверная логика, работа с базой данных и обработка ошибок.</p>
+                </article>
+                <article class="scope-cell cell-api reveal">
+                    <span class="tag">HTTP</span>
+                    <h3>API</h3>
+                    <p>Запросы, ответы, статусы и контракты между сервисами.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="contacts" class="contacts wrap" aria-labelledby="contacts-title">
+            <h2 id="contacts-title" class="reveal">Контакты</h2>
+            <ul class="contact-list">
+                <li class="reveal">
+                    <a class="contact-row" href="https://t.me/b1arr0" target="_blank" rel="noopener">
+                        <i class="ph ph-telegram-logo" aria-hidden="true"></i>
+                        <span class="contact-label">Telegram</span>
+                        <span class="contact-value">@b1arr0</span>
+                        <i class="ph ph-arrow-up-right arrow" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li class="reveal">
+                    <div class="contact-row has-action">
+                        <i class="ph ph-envelope-simple" aria-hidden="true"></i>
+                        <span class="contact-label">Почта</span>
+                        <a class="contact-value" href="https://e.mail.ru/compose/?to=biarro@mail.ru" target="_blank" rel="noopener">biarro@mail.ru</a>
+                        <button class="copy" type="button" data-copy="biarro@mail.ru" aria-describedby="copy-status">
+                            <i class="ph ph-copy" aria-hidden="true"></i>
+                            <span class="copy-text">Копировать</span>
+                        </button>
+                    </div>
+                </li>
+                <li class="reveal">
+                    <a class="contact-row" href="https://github.com/b1ar0?tab=repositories" target="_blank" rel="noopener">
+                        <i class="ph ph-github-logo" aria-hidden="true"></i>
+                        <span class="contact-label">Портфолио проектов</span>
+                        <span class="contact-value">github.com/b1ar0</span>
+                        <i class="ph ph-arrow-up-right arrow" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+            <p id="copy-status" class="sr-only" aria-live="polite"></p>
+        </section>
+    </main>
+
+    <footer class="foot wrap">
+        <span>© 2026 Билинский Артур</span>
+        <a href="#main">Наверх</a>
+    </footer>
+
+    <script src="js.js" defer></script>
 </body>
 </html>

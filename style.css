@@ -1,6 +1,675 @@
-#contacts{
-	color: green;
+/*
+  Визитка: монохром + один акцент (зелёный «тест пройден»).
+  Тема: светлая/тёмная по системной настройке.
+  Скругления: фото и блоки 20px, кнопки и интерактив - pill.
+*/
+
+:root {
+    --bg: #f3f4f2;
+    --surface: #e8eae7;
+    --surface-2: #dfe2de;
+    --text: #141614;
+    --muted: #535955;
+    --line: rgba(20, 22, 20, 0.12);
+    --accent: #157a4c;
+    --accent-ink: #f6f8f6;
+    --accent-soft: rgba(21, 122, 76, 0.1);
+    --shadow: 0 30px 60px -30px rgba(18, 40, 28, 0.35);
+    --grain-opacity: 0.05;
+
+    --font-sans: "Onest", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+    --radius: 20px;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --z-header: 10;
+    --z-grain: 50;
+    --z-skip: 60;
 }
-#contacts:hover {
-	color: blue;
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0f1110;
+        --surface: #171a18;
+        --surface-2: #1e2220;
+        --text: #eaedeb;
+        --muted: #9da49f;
+        --line: rgba(234, 237, 235, 0.12);
+        --accent: #45cf8f;
+        --accent-ink: #0b1a12;
+        --accent-soft: rgba(69, 207, 143, 0.1);
+        --shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
+        --grain-opacity: 0.07;
+    }
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* Лёгкое зерно поверх страницы, в тон чёрно-белому фото */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-grain);
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+}
+
+.wrap {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(16px, 4vw, 40px);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.skip {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: var(--z-skip);
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+    text-decoration: none;
+    transform: translateY(-160%);
+    transition: transform 0.2s var(--ease);
+}
+
+.skip:focus-visible {
+    transform: none;
+}
+
+/* ---------- Шапка ---------- */
+
+.top {
+    position: relative;
+    z-index: var(--z-header);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+}
+
+.mark {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.top-nav {
+    display: flex;
+    gap: 4px;
+}
+
+.top-nav a {
+    padding: 8px 14px;
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+/* ---------- Первый экран ---------- */
+
+.hero {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: center;
+    gap: clamp(32px, 6vw, 96px);
+    min-height: calc(100dvh - 72px);
+    padding-top: clamp(24px, 6vh, 72px);
+    padding-bottom: clamp(48px, 8vh, 96px);
+}
+
+.hero-text {
+    padding-bottom: clamp(0px, 4vh, 48px);
+}
+
+.eyebrow {
+    margin-bottom: 28px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: clamp(3rem, 8.5vw, 7rem);
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    margin-bottom: 28px;
+}
+
+.lead {
+    max-width: 34ch;
+    color: var(--muted);
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+    line-height: 1.55;
+    text-wrap: pretty;
+    margin-bottom: 40px;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 28px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 26px 15px 22px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 12px 24px -14px var(--accent);
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), filter 0.2s var(--ease);
+}
+
+.btn .ph {
+    font-size: 1.25rem;
+}
+
+.btn:active {
+    transform: scale(0.98) translateY(1px);
+}
+
+.text-link {
+    position: relative;
+    color: var(--text);
+    font-weight: 500;
+    text-decoration: none;
+    padding-block: 4px;
+}
+
+.text-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.35;
+    transform-origin: left;
+    transition: opacity 0.3s var(--ease), transform 0.4s var(--ease);
+}
+
+.hero-photo {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    max-height: calc(100dvh - 72px - 96px);
+    justify-self: end;
+    width: 100%;
+}
+
+.hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 40% 60%;
+    transform: scale(1.04);
+    transition: transform 1.2s var(--ease);
+}
+
+/* ---------- Направления ---------- */
+
+.scope {
+    padding-block: clamp(72px, 12vh, 140px) clamp(56px, 10vh, 120px);
+}
+
+h2 {
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+.scope-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 16px;
+}
+
+.scope-cell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 240px;
+    padding: clamp(24px, 3vw, 36px);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
+}
+
+.cell-front {
+    grid-row: span 2;
+    min-height: 420px;
+    background:
+        radial-gradient(120% 90% at 100% 0%, var(--accent-soft), transparent 60%),
+        var(--surface);
+}
+
+.cell-back {
+    background: var(--surface-2);
+}
+
+.cell-api {
+    background: var(--text);
+    color: var(--bg);
+}
+
+.scope-cell.cell-api p,
+.cell-api .tag {
+    color: color-mix(in srgb, var(--bg) 72%, var(--text));
+}
+
+.cell-api .tag {
+    border-color: color-mix(in srgb, var(--bg) 30%, var(--text));
+}
+
+.tag {
+    position: absolute;
+    top: clamp(24px, 3vw, 36px);
+    left: clamp(24px, 3vw, 36px);
+    padding: 4px 10px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+.scope-cell h3 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    margin-bottom: 10px;
+}
+
+.cell-front h3 {
+    font-size: clamp(2.6rem, 6vw, 4.75rem);
+}
+
+.scope-cell p {
+    max-width: 38ch;
+    color: var(--muted);
+    text-wrap: pretty;
+}
+
+/* ---------- Контакты ---------- */
+
+.contacts {
+    padding-bottom: clamp(72px, 12vh, 140px);
+}
+
+.contact-list {
+    list-style: none;
+    border-top: 1px solid var(--line);
+}
+
+.contact-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 20px;
+    padding: 26px 4px;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+}
+
+.contact-row > .ph:first-child {
+    font-size: 1.6rem;
+    color: var(--muted);
+    transition: color 0.3s var(--ease);
+}
+
+.contact-label {
+    font-size: clamp(1.25rem, 2.6vw, 1.9rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}
+
+.contact-value {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition: color 0.2s var(--ease);
+}
+
+.contact-row:not(.has-action) .contact-value {
+    grid-column: 3;
+}
+
+.has-action .contact-value {
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 4px;
+}
+
+.arrow {
+    font-size: 1.5rem;
+    transition: transform 0.4s var(--ease), color 0.3s var(--ease);
+}
+
+.copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 9.5rem;
+    justify-content: center;
+    padding: 9px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text);
+    font: 500 0.9rem/1 var(--font-sans);
+    cursor: pointer;
+    transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.copy:active {
+    transform: scale(0.97);
+}
+
+.copy.is-done {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.copy.is-error {
+    border-color: #c2412d;
+    color: #c2412d;
+}
+
+/* ---------- Подвал ---------- */
+
+.foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 28px 40px;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.foot a {
+    text-decoration: none;
+}
+
+/* ---------- Hover только там, где есть мышь ---------- */
+
+@media (hover: hover) {
+    .mark:hover {
+        background: var(--text);
+        color: var(--bg);
+        border-color: var(--text);
+    }
+
+    .top-nav a:hover {
+        color: var(--text);
+        background: var(--surface);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 30px -14px var(--accent);
+        filter: brightness(1.06);
+    }
+
+    .text-link:hover::after {
+        opacity: 1;
+    }
+
+    .hero-photo:hover img {
+        transform: scale(1);
+    }
+
+    .contact-row:hover > .ph:first-child,
+    .contact-row:hover .arrow {
+        color: var(--accent);
+    }
+
+    .contact-row:hover .arrow {
+        transform: translate(4px, -4px);
+    }
+
+    a.contact-value:hover,
+    .contact-row:hover span.contact-value {
+        color: var(--text);
+    }
+
+    .copy:hover {
+        background: var(--surface);
+    }
+
+    .foot a:hover {
+        color: var(--text);
+    }
+}
+
+/* ---------- Анимация ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+    .enter {
+        opacity: 0;
+        transform: translateY(18px);
+        animation: rise 0.9s var(--ease) forwards;
+    }
+
+    .d0 { animation-delay: 0.05s; }
+    .d1 { animation-delay: 0.15s; }
+    .d2 { animation-delay: 0.27s; }
+    .d3 { animation-delay: 0.39s; }
+
+    .hero-photo.enter {
+        transform: translateY(28px) scale(0.98);
+    }
+
+    .js .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+        transition-delay: calc(var(--stagger, 0) * 80ms);
+    }
+
+    .js .reveal.is-in {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes rise {
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* ---------- Адаптив ---------- */
+
+@media (max-width: 860px) {
+    .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        align-items: start;
+        gap: 40px;
+        padding-top: 32px;
+    }
+
+    .hero-text {
+        padding-bottom: 0;
+    }
+
+    .hero-photo {
+        max-height: none;
+        aspect-ratio: 4 / 5;
+        justify-self: stretch;
+    }
+
+    .scope-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cell-front {
+        grid-row: auto;
+        min-height: 300px;
+    }
+
+    .scope-cell {
+        min-height: 220px;
+    }
+}
+
+@media (max-width: 560px) {
+    .top-nav a:first-child {
+        display: none;
+    }
+
+    .contact-row {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 6px 14px;
+        padding: 22px 0;
+    }
+
+    .contact-row > .ph:first-child {
+        grid-row: span 2;
+        align-self: start;
+        margin-top: 4px;
+    }
+
+    .contact-row:not(.has-action) .contact-value {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .contact-row .arrow {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    .has-action .contact-value {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .has-action .copy {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+        min-width: 0;
+        padding: 10px;
+    }
+
+    .has-action .copy-text {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+    }
+
+    .foot {
+        flex-direction: column;
+    }
 }
